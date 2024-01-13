@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 const MyAgents = () => {
-  const adminZones  = "Z123";
+  const adminZones  = "Z1998";
   const [data, setData] = useState(null);
 
   useEffect(() => {
