@@ -23,7 +23,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://raddaf-be.onrender.com//login', {
+      const response = await fetch('https://raddaf-be.onrender.com/admin/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,6 +34,7 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
+        alert(`hi ${formData.email} welcome to login`);
         console.log('Login successful:', data);
         navigate('/');
         // Handle successful login, e.g., redirect to another page
@@ -47,7 +48,7 @@ const Login = () => {
     }
 
     console.log('Login clicked', formData);
-    alert(`hi ${formData.email} welcome to login`);
+    // alert(`hi ${formData.email} welcome to login`);
   };
 
   return (

@@ -8,6 +8,7 @@ import Signup from './components/signup/signup';
 import Login from './components/Login/Login';
 import Listingrequest from "./components/ListingRequest/Listingrequest.js";
 import Viewdocuments from './components/Viewdocuments/viewdocuments.js'
+import Valuationrequest from "./components/Valuationrequest/Valuationrequest.js"
 
 
 function App() {
@@ -23,6 +24,8 @@ function App() {
       {/* <Route path='/listingrequest' element={<} */}
       <Route path="/viewdocuments" element={<Viewdocuments/>}/>
       <Route path="/listingrequest" element={<Listingrequest/>} />      
+      <Route path="/valuationrequest" element={<Valuationrequest/>}/>
+
     </Routes>
     </BrowserRouter>
     </div>
