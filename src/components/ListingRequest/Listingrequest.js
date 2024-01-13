@@ -7,7 +7,7 @@ import axios from 'axios';
 import "./Listingrequest.css"
 // import './Valuationrequest.css';
 
-const Valuationrequest = () => {
+const Listingrequest = () => {
   const navigate = useNavigate();
   const [selectedProduct, setSelectedProduct] = useState([]);
 
@@ -152,4 +152,4 @@ const Valuationrequest = () => {
   );
 };
 
-export default Valuationrequest;
+export default Listingrequest;

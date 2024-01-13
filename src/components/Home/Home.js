@@ -48,7 +48,7 @@ const Homeagent=(()=>{
                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '3.5rem' , width:'3.5rem' ,background:'#FFD2B1' ,borderRadius:'50px'}}>
                                   <LocationOnOutlinedIcon style={{ fontSize: '40px', color: '#955108' }} />
                                 </div>
-                                <div className='my-sub-links-content'>
+                                <div className='my-sub-links-content' onClick={(()=>{navigate('/myagents')})}>
                                      <h1>My Agents</h1>
                                      <p>{MyAzents}</p>
                                 </div>
@@ -106,7 +106,7 @@ const Homeagent=(()=>{
                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '3.5rem' , width:'3.5rem' ,background:'#FFD2B1' ,borderRadius:'50px'}}>
                                   <OfflinePinOutlinedIcon style={{ fontSize: '40px', color: '#955108' }} />
                                 </div>
-                                <div className='my-sub-links-content'>
+                                <div className='my-sub-links-content' onClick={(()=>{navigate('/valuationrequest')})}>
                                      <h1>Valuation Request</h1>
                                      <p>{Valuation}</p>
                                 </div>
