@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { TextField, Checkbox, FormControlLabel, Button } from '@mui/material';
-import '../Login/login.css'
-import FacebookIcon from '@mui/icons-material/Facebook';
-import { GoogleLogin,GoogleOAuthProvider} from '@react-oauth/google';
-
-
+import '../Login/login.css';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    rememberMe: false
+    rememberMe: false,
   });
 
   const handleInputChange = (e) => {
@@ -25,7 +23,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://raddaf-be.onrender.com/agent-auth/login', {
+      const response = await fetch('https://raddaf-be.onrender.com//login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -37,9 +35,11 @@ const Login = () => {
 
       if (response.ok) {
         console.log('Login successful:', data);
+        navigate('/');
         // Handle successful login, e.g., redirect to another page
       } else {
         console.error('Login failed:', data.error);
+        alert('Login failed', data.error);
         // Handle failed login, e.g., display an error message
       }
     } catch (error) {
@@ -47,11 +47,11 @@ const Login = () => {
     }
 
     console.log('Login clicked', formData);
+    alert(`hi ${formData.email} welcome to login`);
   };
 
   return (
     <div className='main-divs'>
-      
       <form className='form-contain' onSubmit={handleSubmit}>
         <h2>Admin Login Form</h2>
         <TextField
@@ -86,21 +86,10 @@ const Login = () => {
           }
           label="Remember Me"
         />
-        <button type="submit" className='button-admin'>
+        <Button variant='contained' type='submit' className='button-admin'>
           Login
-        </button>
-        <div className='icons-mui'>
-        <Button sx={{background:'white',color:"black"}} className='iconbut' startIcon={<FacebookIcon sx={{color:"blue"}}/>}>Facebook</Button>
-         
-          <GoogleOAuthProvider>
-          <GoogleLogin  />
-          
-          </GoogleOAuthProvider>
-             
-              
-        </div>
+        </Button>
       </form>
-      
     </div>
   );
 };
