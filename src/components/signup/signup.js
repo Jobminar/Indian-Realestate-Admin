@@ -1,136 +1,134 @@
-import React, { useState } from 'react';
-import { TextField, Button } from '@mui/material';
-import '../signup/signup.css'
+
+import React, { useState } from "react";
+import { TextField} from "@mui/material";
+import "../signup/signup.css";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 const Signup = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    Username: '',
-    email: '',
-    password: '',
-    Fullname: '',
-    title: '',
-    zoneNumber: '',
-    profileImage: null,
-    verified: false,
-  });
-
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        setFormData({ ...formData, profileImage: reader.result });
-      };
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const formDataCopy = { ...formData, verified: false };
-      const formDataToSend = new FormData();
-
-      for (const key in formDataCopy) {
-        formDataToSend.append(key, formDataCopy[key]);
-      }
-
-      const response = await fetch('https://raddaf-be.onrender.com/agent-auth/signup', {
-        method: 'POST',
-        body: formDataToSend,
-        headers: {
-          // Add any headers if needed
-        },
+        username: "",
+        email: "",
+        password: "",
+        fullname: "",
+        role: "",
+        phoneNo: "",
+        adminZones: [],
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log('Signup successful:', data);
-      } else {
-        console.error('Signup failed:', data.error);
-      }
-    } catch (error) {
-      console.error('Error during signup:', error);
-    }
-    console.log(formData, "formdata");
-  };
+    
+      const handleChange = (e) => {
+        setFormData({
+          ...formData,
+          [e.target.name]: e.target.value,
+        });
+      };
+    
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        try {
+          // Send form data to the backend API
+          const response = await axios.post('https://raddaf-be.onrender.com/admin/save', formData);
+    
+          // Handle success
+          console.log(response.data.message);
+          alert("Successfull login")
+          navigate("/login")
+    
+          // Reset form after successful submission
+          setFormData({
+            username: "",
+            email: "",
+            password: "",
+            fullname: "",
+            role: "",
+            phoneNo: "",
+            adminZones: [],
+          });
+    
+          // Provide any additional handling here, e.g., displaying a success message
+        } catch (error) {
+          // Handle error
+          console.error('Error submitting form:', error.message);
+          alert("error",error.message)
+          // Provide any additional error handling here
+        }
+      };
+  
 
   return (
-    <div className='main-formdiv'>
+    <div className="main-signup">
       <form className="form-field1" onSubmit={handleSubmit}>
-        <TextField
+      <TextField
+          className="inputs-sign"
           type="text"
-          name="Username"
-          className="inputs"
-          placeholder="Username"
-          value={formData.Username}
-          onChange={handleInputChange}
+          name="username"
+          label="Username"
+          value={formData.username}
+          onChange={handleChange}
         />
 
         <TextField
+            className="inputs-sign"
           type="email"
           name="email"
-          className="inputs"
-          placeholder="Email"
+          label="Email"
           value={formData.email}
-          onChange={handleInputChange}
+          onChange={handleChange}
         />
 
         <TextField
+            className="inputs-sign"
           type="password"
           name="password"
-          className="inputs"
-          placeholder="Password"
+          label="Password"
           value={formData.password}
-          onChange={handleInputChange}
+          onChange={handleChange}
         />
 
         <TextField
+            className="inputs-sign"
           type="text"
-          name="Fullname"
-          className="inputs"
-          placeholder="Fullname"
-          value={formData.Fullname}
-          onChange={handleInputChange}
+          name="fullname"
+          label="Fullname"
+          value={formData.fullname}
+          onChange={handleChange}
         />
 
         <TextField
+            className="inputs-sign"
           type="text"
-          name="title"
-          className="inputs"
-          placeholder="Title"
-          value={formData.title}
-          onChange={handleInputChange}
+          name="role"
+          label="Role"
+          value={formData.role}
+          onChange={handleChange}
         />
 
         <TextField
+            className="inputs-sign"
           type="text"
-          name="zoneNumber"
-          className="inputs"
-          placeholder="Zone Number"
-          value={formData.zoneNumber}
-          onChange={handleInputChange}
+          name="phoneNo"
+          label="Phone Number"
+          value={formData.phoneNo}
+          onChange={handleChange}
         />
 
-            <input
-          type="file"
-          name="profileImage"
-          className="inputs"
-          accept="image/*"
-          onChange={handleFileChange}
+        <TextField
+            className="inputs-sign"
+          type="text"
+          name="adminZones"
+          label="Admin Zones"
+          value={formData.adminZones}
+          onChange={handleChange}
         />
 
-
-        <Button variant="contained" className="buttonsmy" type="submit">
-          Sign Up
-        </Button>
 
        
+
+<button variant="contained" className="buttons-sign" type="submit">
+  Sign Up
+</button>
       </form>
     </div>
   );

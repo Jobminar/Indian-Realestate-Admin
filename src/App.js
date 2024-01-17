@@ -9,6 +9,14 @@ import Login from './components/Login/Login';
 import Listingrequest from "./components/ListingRequest/Listingrequest.js";
 import Viewdocuments from './components/Viewdocuments/viewdocuments.js'
 import Valuationrequest from "./components/Valuationrequest/Valuationrequest.js"
+import Myclients from "./components/MyClinets/Myclients.js";
+import Mylandlords from "./components/MyLandLords/Mylandlords.js";
+import Mytenats from "./components/MyTenants/Mytenats.js";
+import Myrentalrequests from "./components/Myrental/myrentalrequests.jsx";
+// import Listaproperty from "./components/Lista-property/Lista-property";
+import Mylistedproperties from "./components/Mylistedproperties/mylistedproperties.jsx";
+
+
 
 
 function App() {
@@ -25,6 +33,17 @@ function App() {
       <Route path="/viewdocuments" element={<Viewdocuments/>}/>
       <Route path="/listingrequest" element={<Listingrequest/>} /> 
       <Route path='/valuationrequest' element={<Valuationrequest/>}/>
+      <Route path="/listingrequest" element={<Listingrequest/>} />      
+      <Route path="/valuationrequest" element={<Valuationrequest/>}/>
+      <Route path="/myclients" element={<Myclients />} />
+      <Route path="/mylandlords" element={<Mylandlords />}/>
+      <Route path="/mytenats" element={<Mytenats />} />
+      <Route path="/myrentalrequests" element={<Myrentalrequests/>}/>
+      {/* <Route path="/listaproperty" element={<Listaproperty/>}/> */}
+      <Route path="/mylistedproperties" element={<Mylistedproperties />}/>
+
+
+
     </Routes>
     </BrowserRouter>
     </div>

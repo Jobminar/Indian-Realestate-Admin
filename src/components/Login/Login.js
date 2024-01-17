@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
-import { TextField, Checkbox, FormControlLabel, Button } from '@mui/material';
-import '../Login/login.css'
-import FacebookIcon from '@mui/icons-material/Facebook';
-import { GoogleLogin,GoogleOAuthProvider} from '@react-oauth/google';
-
-
+import React, { useState } from "react";
+import { TextField, Checkbox, FormControlLabel, Button } from "@mui/material";
+import "../Login/login.css";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    rememberMe: false
+    email: "",
+    password: "",
+    rememberMe: false,
   });
 
   const handleInputChange = (e) => {
@@ -25,34 +23,44 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://raddaf-be.onrender.com/agent-auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://raddaf-be.onrender.com/admin/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
-        console.log('Login successful:', data);
+        alert(`hi ${formData.email} welcome to login`);
+        console.log("Login successful:", data);
+
+        // Store agent data in session storage
+        sessionStorage.setItem("agentData", JSON.stringify(data.admin));
+
+        navigate("/");
         // Handle successful login, e.g., redirect to another page
       } else {
-        console.error('Login failed:', data.error);
+        console.error("Login failed:", data.error);
+        alert("Login failed", data.error);
         // Handle failed login, e.g., display an error message
       }
     } catch (error) {
-      console.error('Error during login:', error);
+      console.error("Error during login:", error);
     }
 
-    console.log('Login clicked', formData);
+    console.log("Login clicked", formData);
+    // alert(`hi ${formData.email} welcome to login`);
   };
 
   return (
-    <div className='main-divs'>
-      
-      <form className='form-contain' onSubmit={handleSubmit}>
+    <div className="main-divs">
+      <form className="form-contain" onSubmit={handleSubmit}>
         <h2>Admin Login Form</h2>
         <TextField
           variant="filled"
@@ -86,21 +94,10 @@ const Login = () => {
           }
           label="Remember Me"
         />
-        <button type="submit" className='button-admin'>
+        <Button variant="contained" type="submit" className="button-admin">
           Login
-        </button>
-        <div className='icons-mui'>
-        <Button sx={{background:'white',color:"black"}} className='iconbut' startIcon={<FacebookIcon sx={{color:"blue"}}/>}>Facebook</Button>
-         
-          <GoogleOAuthProvider>
-          <GoogleLogin  />
-          
-          </GoogleOAuthProvider>
-             
-              
-        </div>
+        </Button>
       </form>
-      
     </div>
   );
 };

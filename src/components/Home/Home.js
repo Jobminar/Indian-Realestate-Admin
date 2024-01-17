@@ -37,7 +37,7 @@ const Homeagent=(()=>{
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '3.5rem' , width:'3.5rem' ,background:'#FFD2B1' ,borderRadius:'50px'}}>
                                   <Person2OutlinedIcon style={{ fontSize: '40px', color: '#955108' }} />
                             </div>
-                                <div className='my-sub-links-content'>
+                                <div className='my-sub-links-content' onClick={(()=>{navigate('/myclients')})}>
                                      <h1>Clients</h1>
                                      <p>{Clients}</p>
                                 </div>
@@ -58,7 +58,7 @@ const Homeagent=(()=>{
                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '3.5rem' , width:'3.5rem' ,background:'#FFD2B1' ,borderRadius:'50px'}}>
                                   <CalendarMonthOutlinedIcon style={{ fontSize: '40px', color: '#955108' }} />
                                 </div>
-                                <div className='my-sub-links-content'>
+                                <div className='my-sub-links-content' onClick={(()=>{navigate('/appointments')})}>
                                      <h1>My Appointments</h1>
                                      <p>{MyAppointment}</p>
                                 </div>
@@ -68,7 +68,7 @@ const Homeagent=(()=>{
                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '3.5rem' , width:'3.5rem' ,background:'#FFD2B1' ,borderRadius:'50px'}}>
                                   <LandscapeOutlinedIcon style={{ fontSize: '40px', color: '#955108' }} />
                                 </div>
-                                <div className='my-sub-links-content'>
+                                <div className='my-sub-links-content' onClick={(()=>{navigate('/mylandlords')})}>
                                      <h1>Landlords</h1>
                                      <p>{Landlords}</p>
                                 </div>
@@ -78,7 +78,7 @@ const Homeagent=(()=>{
                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '3.5rem' , width:'3.5rem' ,background:'#FFD2B1' ,borderRadius:'50px'}}>
                                   <PeopleOutlinedIcon style={{ fontSize: '40px', color: '#955108' }} />
                                 </div>
-                                <div className='my-sub-links-content'>
+                                <div className='my-sub-links-content' onClick={(()=>{navigate('/mytenats')})}>
                                      <h1>Tenants</h1>
                                      <p>{Tenants}</p>
                                 </div>
@@ -88,7 +88,7 @@ const Homeagent=(()=>{
                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '3.5rem' , width:'3.5rem' ,background:'#FFD2B1' ,borderRadius:'50px'}}>
                                   <Diversity1OutlinedIcon style={{ fontSize: '40px', color: '#955108' }} />
                                 </div>
-                                <div className='my-sub-links-content'>
+                                <div className='my-sub-links-content' onClick={(()=>{navigate('/others')})}>
                                      <h1>Others</h1>
                                      <p>{Others}</p>
                                 </div>
@@ -96,9 +96,9 @@ const Homeagent=(()=>{
                             </div>
                     </div>
                     <div className='my-own'>
-                            <p>My Rental </p>
+                            <p onClick={()=>{navigate('/myrentalrequests')}}>My Rental </p>
                             <p onClick={()=>{navigate('/listaproperty')}}>List a Properties</p>
-                            <p>My Listed Properties</p>
+                            <p onClick={()=>{navigate('/mylistedproperties')}} >My Listed Properties</p>
                             {/* <p>My Valuation Request</p> */}
                     </div>
                     <div className='my-links'>
@@ -127,7 +127,7 @@ const Homeagent=(()=>{
                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '3.5rem' , width:'3.5rem' ,background:'#FFD2B1' ,borderRadius:'50px'}}>
                                   <ClassOutlinedIcon style={{ fontSize: '40px', color: '#955108' }} />
                                 </div>
-                                <div className='my-sub-links-content'>
+                                <div className='my-sub-links-content' onClick={(()=>{navigate('/agreements')})}>
                                      <h1>Agreements</h1>
                                      <p>{Agreementscount}</p>
                                 </div>
