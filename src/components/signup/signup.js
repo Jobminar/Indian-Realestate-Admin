@@ -4,7 +4,7 @@ import { TextField} from "@mui/material";
 import "../signup/signup.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import Swal from 'sweetalert2'
 const Signup = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -33,7 +33,12 @@ const Signup = () => {
     
           // Handle success
           console.log(response.data.message);
-          alert("Successfull login")
+         
+          Swal.fire({
+            icon:"success",
+            title:"Successful signup",
+            text:"signup has been successful"
+          })
           navigate("/login")
     
           // Reset form after successful submission
@@ -51,7 +56,12 @@ const Signup = () => {
         } catch (error) {
           // Handle error
           console.error('Error submitting form:', error.message);
-          alert("error",error.message)
+        
+          Swal.fire({
+            icon:"error",
+            title:"failed to signup",
+            text:error.message
+          })
           // Provide any additional error handling here
         }
       };
