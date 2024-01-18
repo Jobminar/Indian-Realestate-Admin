@@ -1,154 +1,200 @@
-// import React, { useEffect, useState } from 'react';
-
-// const MyAgents = () => {
-//   const adminZones  = "Z1998";
-//   const [data, setData] = useState(null);
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//         console.log("fetchData is working");
-//       try {
-//         console.log("this is console log inside try block")
-//         const response = await fetch("https://raddaf-be.onrender.com/admin/getAgentList", {
-//           method: 'POST',
-//           headers: {
-//             'Content-Type': 'application/json',
-//           },
-//           body: JSON.stringify({ adminZones }),
-//         });
-
-//         if (!response.ok) {
-//           throw new Error('Network response was not ok');
-//         }
-
-//         const dataFromServer = await response.json();
-//         setData(dataFromServer.result); // Assuming data structure has a "result" property
-//         console.log('this is data FromServer',dataFromServer);
-//       } catch (error) {
-//         console.error('Error fetching data:', error);
-//       }
-//     };
-
-//     fetchData();
-//   }, [adminZones]);
-
-//   return (
-//     <div>
-//       <h1>Display your data as needed</h1>
-//       {data && (
-//         <ul>
-//           {data.map((agent) => (
-//             <li key={agent._id}>
-//               <div>
-//                 <strong>Username:</strong> {agent.username}
-//               </div>
-//               <div>
-//                <p> <strong>Email:</strong> {agent.email}</p>
-//                <p> <strong>Title:</strong> {agent.title}</p>
-//                <p> <strong>Zone Number:</strong> {agent.zoneNumber}</p>
-//                <p><button>verifiied</button>:{agent.verified}</p>
-//                <div>
-//                 <img src={agent.profileImage} width="50%" height="50%" />
-//                </div>
-//               </div>
-//             </li>
-//           ))}
-//         </ul>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default MyAgents;
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import "../Myagents/myagents.css";
+import { Card, FormControl, MenuItem, Select } from "@mui/material";
 
 const MyAgents = () => {
-  const adminZones = ["Z1998"]; // Assuming you want to verify agents in Z1998 initially
-  const [data, setData] = useState(null);
+  const [selectedZone, setSelectedZone] = useState("Z1");
+  const [nonVerifiedData, setNonVerifiedData] = useState(null);
+  const [verifiedData, setVerifiedData] = useState(null);
+
+  const adminZones = ["Z1", "Z2", "Z3", "Z4", "Z5"];
 
   const handleVerify = async (email) => {
     try {
-      const response = await fetch("https://raddaf-be.onrender.com/admin/approveAgent", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          verifiedStatus: true,
-        }),
-      });
+      const response = await fetch(
+        "https://raddaf-be.onrender.com/admin/approveAgent",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            verifiedStatus: true,
+          }),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
-      const updatedData = data.map(agent =>
+      const updatedNonVerifiedData = nonVerifiedData.map((agent) =>
         agent.email === email ? { ...agent, verified: true } : agent
       );
 
-      setData(updatedData);
+      setNonVerifiedData(updatedNonVerifiedData);
     } catch (error) {
-      console.error('Error verifying agent:', error);
+      console.error("Error verifying agent:", error);
     }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchNonVerifiedData = async () => {
       try {
-        const response = await fetch("https://raddaf-be.onrender.com/admin/getAgentList", {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ adminZones }),
-        });
+        const response = await fetch(
+          "https://raddaf-be.onrender.com/admin/getAgentList",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ adminZones: [selectedZone] }),
+          }
+        );
 
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
 
         const dataFromServer = await response.json();
-        setData(dataFromServer.result);
+        setNonVerifiedData(dataFromServer.result);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching non-verified data:", error);
       }
     };
 
-    fetchData();
-  }, [adminZones]);
+    fetchNonVerifiedData();
+  }, [selectedZone]);
+
+  useEffect(() => {
+    const fetchVerifiedData = async () => {
+      try {
+        const response = await fetch(
+          "https://raddaf-be.onrender.com/admin/agents/verified",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+  
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+  
+        const dataFromServer = await response.json();
+  
+        // Ensure that dataFromServer.result is an array
+        if (Array.isArray(dataFromServer.result)) {
+          setVerifiedData(dataFromServer.result);
+        } else {
+          console.error("Invalid data received from the server:", dataFromServer);
+        }
+      } catch (error) {
+        console.error("Error fetching verified data:", error);
+      }
+    };
+  
+    fetchVerifiedData();
+  }, []);
+  
 
   return (
-    <div>
-      <h1>Agent List</h1>
-      {data && (
-        <ul>
-          {data.map((agent) => (
-            <li key={agent._id}>
-              <div>
-                <strong>Username:</strong> {agent.username}
-              </div>
-              <div>
-                <p><strong>Email:</strong> {agent.email}</p>
-                <p><strong>Title:</strong> {agent.title}</p>
-                <p><strong>Zone Number:</strong> {agent.zoneNumber}</p>
-                <p>
-                  <button
-                    onClick={() => handleVerify(agent.email)}
-                    disabled={agent.verified}
-                  >
-                    {agent.verified ? 'Verified' : 'Verify'}
-                  </button>
-                </p>
+    <div className="myagent-main">
+      <div className="no-verify-agents">
+        <h2 style={{color:"red"}}>Non Verified Agent List</h2>
+        <FormControl
+          sx={{
+            m: 1,
+            minWidth: 120,
+            background: "#9E5C08",
+            color: "white",
+            width: "20%",
+          }}
+        >
+          <Select
+            value={selectedZone}
+            onChange={(e) => setSelectedZone(e.target.value)}
+            displayEmpty
+            inputProps={{ "aria-label": "Without label" }}
+          >
+            {adminZones.map((zone) => (
+              <MenuItem key={zone} value={zone}>
+                {zone}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        {nonVerifiedData && (
+          <div>
+            {nonVerifiedData.map((agent) => (
+              <div key={agent._id}>
                 <div>
-                  <img src={agent.profileImage} alt="Agent Profile" width="50%" height="50%" />
+                  <strong>Username:</strong> {agent.Username}
+                </div>
+                <div>
+                  <p>
+                    <strong>Email:</strong> {agent.email}
+                  </p>
+                  <p>
+                    <strong>Title:</strong> {agent.title}
+                  </p>
+                  <p>
+                    <strong>Zone Number:</strong> {agent.zoneNumber}
+                  </p>
+                  <p>
+                    <button
+                      className="verify-button"
+                      onClick={() => handleVerify(agent.email)}
+                      disabled={agent.verified}
+                    >
+                      {agent.verified ? "Verified" : "Verify"}
+                    </button>
+                  </p>
+                  <div>
+                    <img
+                      src={`data:image/jpeg;base64,${agent?.profileImage}`}
+                      alt="Agent Profile"
+                      style={{ width: "50%", height: "50%" }}
+                      onError={(e) => {
+                        e.target.src = "fallback-image-url";
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
-            </li>
-          ))}
-        </ul>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="verified-agents">
+        <h2 style={{color:"green"}}>Verified Agents List</h2>
+        {verifiedData && (
+          <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
+            {verifiedData.map((agent) => (
+              <div key={agent._id} >
+                <Card sx={{background:"#DBA259"}}>
+                  <p>
+                  <strong>Username:</strong> {agent.Username}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {agent.email}
+                  </p>
+                  <p>
+                    <strong>Title:</strong> {agent.title}
+                  </p>
+                  <p>
+                    <strong>Zone Number:</strong> {agent.zoneNumber}
+                  </p>
+                </Card>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
