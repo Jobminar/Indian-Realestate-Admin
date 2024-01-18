@@ -1,13 +1,51 @@
-
 import React, { useState } from "react";
-import { TextField} from "@mui/material";
+import { CircularProgress, TextField } from "@mui/material";
 import "../signup/signup.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+
 const Signup = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    fullname: "",
+    role: "",
+    phoneNo: "",
+    adminZones: [],
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true); // Set loading state to true before making the API call
+
+      // Send form data to the backend API
+      const response = await axios.post('https://raddaf-be.onrender.com/admin/save', formData);
+
+      // Handle success
+      console.log(response.data.message);
+
+      Swal.fire({
+        icon: "success",
+        title: "Successful signup",
+        text: "Signup has been successful",
+      });
+      navigate("/login");
+
+      // Reset form after successful submission
+      setFormData({
         username: "",
         email: "",
         password: "",
@@ -16,61 +54,25 @@ const Signup = () => {
         phoneNo: "",
         adminZones: [],
       });
-    
-      const handleChange = (e) => {
-        setFormData({
-          ...formData,
-          [e.target.name]: e.target.value,
-        });
-      };
-    
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-    
-        try {
-          // Send form data to the backend API
-          const response = await axios.post('https://raddaf-be.onrender.com/admin/save', formData);
-    
-          // Handle success
-          console.log(response.data.message);
-         
-          Swal.fire({
-            icon:"success",
-            title:"Successful signup",
-            text:"signup has been successful"
-          })
-          navigate("/login")
-    
-          // Reset form after successful submission
-          setFormData({
-            username: "",
-            email: "",
-            password: "",
-            fullname: "",
-            role: "",
-            phoneNo: "",
-            adminZones: [],
-          });
-    
-          // Provide any additional handling here, e.g., displaying a success message
-        } catch (error) {
-          // Handle error
-          console.error('Error submitting form:', error.message);
-        
-          Swal.fire({
-            icon:"error",
-            title:"failed to signup",
-            text:error.message
-          })
-          // Provide any additional error handling here
-        }
-      };
-  
+    } catch (error) {
+      // Handle error
+      console.error('Error submitting form:', error.message);
+
+      Swal.fire({
+        icon: "error",
+        title: "Failed to signup",
+        text: error.message,
+      });
+      // Provide any additional error handling here
+    } finally {
+      setLoading(false); // Reset loading state regardless of success or failure
+    }
+  };
 
   return (
     <div className="main-signup">
       <form className="form-field1" onSubmit={handleSubmit}>
-      <TextField
+        <TextField
           className="inputs-sign"
           type="text"
           name="username"
@@ -80,7 +82,7 @@ const Signup = () => {
         />
 
         <TextField
-            className="inputs-sign"
+          className="inputs-sign"
           type="email"
           name="email"
           label="Email"
@@ -89,7 +91,7 @@ const Signup = () => {
         />
 
         <TextField
-            className="inputs-sign"
+          className="inputs-sign"
           type="password"
           name="password"
           label="Password"
@@ -98,7 +100,7 @@ const Signup = () => {
         />
 
         <TextField
-            className="inputs-sign"
+          className="inputs-sign"
           type="text"
           name="fullname"
           label="Fullname"
@@ -107,7 +109,7 @@ const Signup = () => {
         />
 
         <TextField
-            className="inputs-sign"
+          className="inputs-sign"
           type="text"
           name="role"
           label="Role"
@@ -116,7 +118,7 @@ const Signup = () => {
         />
 
         <TextField
-            className="inputs-sign"
+          className="inputs-sign"
           type="text"
           name="phoneNo"
           label="Phone Number"
@@ -125,7 +127,7 @@ const Signup = () => {
         />
 
         <TextField
-            className="inputs-sign"
+          className="inputs-sign"
           type="text"
           name="adminZones"
           label="Admin Zones"
@@ -133,15 +135,12 @@ const Signup = () => {
           onChange={handleChange}
         />
 
-
-       
-
-<button variant="contained" className="buttons-sign" type="submit">
-  Sign Up
-</button>
+        <button variant="contained" className="buttons-sign" type="submit">
+          {loading && <CircularProgress size={24} style={{ marginRight: 8, color: 'white' }} />} Sign Up
+        </button>
       </form>
     </div>
   );
 };
 
-export default Signup;
+export default Signup;

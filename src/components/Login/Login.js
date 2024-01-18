@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { TextField, Checkbox, FormControlLabel, Button } from "@mui/material";
+import { TextField, Checkbox, FormControlLabel } from "@mui/material";
 import "../Login/login.css";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -37,9 +38,13 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert(`hi ${formData.email} welcome to login`);
+        // alert(`hi ${formData.email} welcome to login`);
         console.log("Login successful:", data);
-
+        Swal.fire({
+          icon:"sucess",
+          title:"Successfull login",
+          text:`Login successfull ${formData.email}`
+        })
         // Store agent data in session storage
         sessionStorage.setItem("agentData", JSON.stringify(data.admin));
 
@@ -48,6 +53,7 @@ const Login = () => {
       } else {
         console.error("Login failed:", data.error);
         alert("Login failed", data.error);
+       
         // Handle failed login, e.g., display an error message
       }
     } catch (error) {
@@ -94,9 +100,13 @@ const Login = () => {
           }
           label="Remember Me"
         />
-        <Button variant="contained" type="submit" className="button-admin">
+        <button variant="contained" type="submit" className="button-admin">
           Login
-        </Button>
+        </button>
+        <div style={{display:"flex",gap:"30px",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
+        <p>No Account ?</p>
+        <p onClick={()=>navigate("/signup")}>Register Account</p>
+        </div>
       </form>
     </div>
   );
