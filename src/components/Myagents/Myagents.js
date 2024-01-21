@@ -156,7 +156,7 @@ const MyAgents = () => {
                   </p>
                   <div>
                     <img
-                      src={`data:image/jpeg;base64,${agent?.profileImage}`}
+                      src={`data:image/jpeg;base64,${agent.profileImage}`}
                       alt="Agent Profile"
                       style={{ width: "50%", height: "50%" }}
                       onError={(e) => {
