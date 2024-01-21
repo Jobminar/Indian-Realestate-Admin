@@ -8,14 +8,18 @@ import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import Diversity1OutlinedIcon from '@mui/icons-material/Diversity1Outlined';
 import OfflinePinOutlinedIcon from '@mui/icons-material/OfflinePinOutlined';
 import ChecklistRtlOutlinedIcon from '@mui/icons-material/ChecklistRtlOutlined';
-
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import ClassOutlinedIcon from '@mui/icons-material/ClassOutlined';
-import messagedata from './messagedata'
-import profile from '../Images/profile.png'
+
+import { Card, IconButton, TextField } from '@mui/material';
+import { useContext, useState } from 'react';
+import { Data } from '../../Provider';
 
 
 const Homeagent=(()=>{
 
+
+  const {agents,isLoading, error}=useContext(Data)
   const navigate = useNavigate()
     const Clients = 24
     const MyAzents = 10
@@ -27,6 +31,16 @@ const Homeagent=(()=>{
     const Valuation = 10
     const Listingrequestclient = 7
     const Agreementscount = 34
+
+    const [showMap, setShowMap] = useState({});
+  
+  const handleIconClick = (id) => {
+    
+    setShowMap((prevShowMap) => ({
+      ...prevShowMap,
+      [id]: !prevShowMap[id],
+    }));
+  };
 
     return(
         <>
@@ -138,22 +152,32 @@ const Homeagent=(()=>{
                      
                 </div>
                 <div className="message-con">
-                    <h1>Messages</h1>
-                  {
-                    messagedata.map((data)=>{
-                        return(
-                            <>
-                              <div className='profile-main'>
-                                    <img src={profile} alt='profile'/>
-                                    <div className='profile-content'>
-                                        <h2>{data.name}</h2>
-                                        <p>{data.id}</p>
-                                    </div>
-                              </div>
-                            </>
-                        )
-                    })
-                  }
+                <Card sx={{display:"flex",flexDirection:"column",gap:'15px',background:"#FEFCF8",borderRadius:"10px"}}>
+               <h2 style={{color:"#955108",textAlign:"center"}}>agents Messages</h2>
+                 
+               {agents.map((ele, ind) => {
+  return (
+    <div key={ind} style={{ marginLeft: "10px" }}>
+      <div>{ele.Username}</div>
+      <div>{ele.email}</div>
+
+      <div>
+        {showMap[ele._id] ? (
+          <TextField label="Message" />
+        ) : (
+          <>
+            <IconButton onClick={() => handleIconClick(ele._id)}>
+              <MailOutlineIcon />
+            </IconButton>
+          </>
+        )}
+      </div>
+    </div>
+  );
+})}
+
+                 
+                  </Card>
                 </div>
             </div>
         </>

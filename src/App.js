@@ -1,35 +1,15 @@
+import React from 'react'
+import Provider from './Provider'
+import Routing from './Routing'
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './App.css';
-import Homeagent from './components/Home/Home';
-import Header from './components/Header/Header';
-import MyAgents from './components/Myagents/Myagents';
-import Signup from './components/signup/signup';
-import Login from './components/Login/Login';
-import Listingrequest from "./components/ListingRequest/Listingrequest.js";
-import Viewdocuments from './components/Viewdocuments/viewdocuments.js'
-import Valuationrequest from "./components/Valuationrequest/Valuationrequest.js"
-
-
-function App() {
+const App = () => {
   return (
-    <div className="App">
-    <BrowserRouter>
-    <Header />
-    <Routes>
-      <Route path='/' element={<Homeagent />} />
-      <Route path='/myagents' element={<MyAgents />} />
-      <Route path='/signup' element={<Signup />} />
-      <Route path='/login' element={<Login />} />
-      {/* <Route path='/listingrequest' element={<} */}
-      <Route path="/viewdocuments" element={<Viewdocuments/>}/>
-      <Route path="/listingrequest" element={<Listingrequest/>} />      
-      <Route path="/valuationrequest" element={<Valuationrequest/>}/>
-
-    </Routes>
-    </BrowserRouter>
+    <div>
+      <Provider>
+        <Routing />
+      </Provider>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

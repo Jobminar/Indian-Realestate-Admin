@@ -138,6 +138,7 @@ const Signup = () => {
         <button variant="contained" className="buttons-sign" type="submit">
           {loading && <CircularProgress size={24} style={{ marginRight: 8, color: 'white' }} />} Sign Up
         </button>
+        <p onClick={()=>navigate("/login")} style={{cursor:"pointer"}}>Already Registred Account ? </p>
       </form>
     </div>
   );
