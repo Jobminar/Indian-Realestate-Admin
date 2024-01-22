@@ -9,6 +9,7 @@ import Listingrequest from "./components/ListingRequest/Listingrequest.js";
 import Viewdocuments from './components/Viewdocuments/viewdocuments.js'
 import Valuationrequest from "./components/Valuationrequest/Valuationrequest.js"
 import Agentlist from './components/AjentList/Agentlist.js';
+import ChatComponent from './Sample.js';
 
 
 function Routing() {
@@ -24,6 +25,7 @@ function Routing() {
       <Route path="/listingrequest" element={<Header><Listingrequest/></Header>} />      
       <Route path="/valuationrequest" element={<Header><Valuationrequest/></Header>}/>
       <Route path='/agentlist' element={<Header><Agentlist /></Header>} />
+      <Route path='sample' element={<Header><ChatComponent /></Header>} />
 
     </Routes>
     </BrowserRouter>
